@@ -192,6 +192,9 @@ LenaLteComparison(const Parameters& params)
         default:
             udpPacketSize = 1000;
         }
+        //Fix speed for 200 MHz Bandwidth
+        udpPacketSize = params.udpPacketSize;
+        // lambda = (10000 * params.bandwidthMHz / 200) / params.ueNumPergNb; 
         lambda = 10000 / params.ueNumPergNb;
         break;
     case 1:

@@ -118,6 +118,10 @@ main(int argc, char* argv[])
     cmd.AddValue("remSector", "For which sector to generate the rem", params.remSector);
     cmd.AddValue("progressInterval", "Progress reporting interval", params.progressInterval);
 
+
+    //Custom Settings
+    cmd.AddValue("udpPacketSize", "UDP Packet Size, affects traffic throughput (1000->40Mbps, 500->20Mbps ...)", params.udpPacketSize);
+
     // Parse the command line
     cmd.Parse(argc, argv);
     params.Validate();
