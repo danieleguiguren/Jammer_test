@@ -122,6 +122,22 @@ FlowMonitorOutputStats::Save(const Ptr<FlowMonitor>& monitor,
             double delay = 1000 * i->second.delaySum.GetSeconds() / i->second.rxPackets;
             double jitter = 1000 * i->second.jitterSum.GetSeconds() / i->second.rxPackets;
 
+            double tStop = Simulator::Now().GetSeconds();  
+            double dPen  = 0.25 * tStop;                   
+
+            uint64_t txPkts   = i->second.txPackets;
+            uint64_t rxPkts   = i->second.rxPackets;
+            uint64_t lostPkts = txPkts - rxPkts;
+
+            double delayMs = 0.0;
+            if (txPkts > 0)
+            {
+                double totalDelayS = i->second.delaySum.GetSeconds() + lostPkts * dPen;
+                delayMs = 1000.0 * totalDelayS / (double)txPkts;
+            }
+
+            delay = delayMs;
+
             averageFlowThroughput += th;
             averageFlowDelay += delay;
 
