@@ -126,6 +126,7 @@ main(int argc, char* argv[])
     cmd.Parse(argc, argv);
     params.Validate();
 
+params.udpAppStartTime = params.appGenerationTime;
     std::cout << params;
 
     ShowProgress spinner(params.progressInterval);
