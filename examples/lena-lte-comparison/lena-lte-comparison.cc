@@ -356,6 +356,8 @@ LenaLteComparison(const Parameters& params)
         std::cout << sector0AngleRad << std::endl;
 
         // Creates and plots the network deployment
+        gridScenario.SetResultsDir(params.outputDir);
+        gridScenario.SetSimTag(params.simTag);
         gridScenario.CreateScenario();
         gnbNodes = gridScenario.GetBaseStations();
         ueNodes = gridScenario.GetUserTerminals();

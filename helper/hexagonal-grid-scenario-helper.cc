@@ -183,7 +183,7 @@ PlotHexagonalDeployment(const Ptr<const ListPositionAllocator>& sitePosVector,
 
     // Try to open a new GNUPLOT file
     std::ofstream topologyOutfile;
-    std::string topologyFileRoot = resultsDir + "./hexagonal-topology";
+    std::string topologyFileRoot = resultsDir + "/hexagonal-topology_";
     std::string topologyFileName = topologyFileRoot + simTag + ".gnuplot";
     topologyOutfile.open(topologyFileName.c_str(), std::ios_base::out | std::ios_base::trunc);
     if (!topologyOutfile.is_open())
