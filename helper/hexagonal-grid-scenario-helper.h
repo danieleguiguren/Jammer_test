@@ -11,6 +11,7 @@
 
 #include <ns3/random-variable-stream.h>
 #include <ns3/vector.h>
+#include "ns3/position-allocator.h"
 
 namespace ns3
 {
@@ -27,6 +28,8 @@ class HexagonalGridScenarioHelper : public NodeDistributionScenarioInterface
      * \brief Set results directory for the gnuplot file
      */
     void SetResultsDir(std::string resultsDir);
+
+    void PlotCurrentHexagonalDeployment(const std::vector<Vector>* jammers);
 
     /*
      * \brief Set simTag for the gnuplot file
@@ -85,6 +88,7 @@ class HexagonalGridScenarioHelper : public NodeDistributionScenarioInterface
      * \param cellId Cell Id
      */
     Vector GetHexagonalCellCenter(const Vector& sitePos, uint16_t cellId) const;
+    std::vector<Vector> GetHexagonalCellCenters() const;
 
     // inherited
     void CreateScenario() override;
@@ -121,6 +125,7 @@ class HexagonalGridScenarioHelper : public NodeDistributionScenarioInterface
     double m_maxUeDistanceToClosestSite{
         10000}; //!< Set to some huge value to not affect unless is configured
 
+    std::vector<Vector> centers;
     static std::vector<double> siteDistances;
     static std::vector<double> siteAngles;
 
@@ -130,6 +135,9 @@ class HexagonalGridScenarioHelper : public NodeDistributionScenarioInterface
 
     std::string m_resultsDir; //!< results directory for the gnuplot file
     std::string m_simTag;     //!< simTag for the gnuplot file
+    Ptr<ListPositionAllocator> m_bsCenterVector;
+    Ptr<ListPositionAllocator> m_sitePosVector;
+    Ptr<ListPositionAllocator> m_utPosVector;
 };
 
 } // namespace ns3

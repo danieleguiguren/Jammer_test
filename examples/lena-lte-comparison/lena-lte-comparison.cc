@@ -31,6 +31,8 @@
 
 #include <iomanip>
 
+#include "custom-jammer-helper.h"
+
 /*
  * To be able to use LOG_* functions.
  */
@@ -47,7 +49,7 @@ NS_LOG_COMPONENT_DEFINE("LenaLteComparison");
 namespace ns3
 {
 
-const Time appStartWindow = MilliSeconds(50);
+const Time appStartWindow = MilliSeconds(0);
 
 static std::pair<ApplicationContainer, Time>
 InstallApps(const Ptr<Node>& ue,
@@ -593,6 +595,32 @@ LenaLteComparison(const Parameters& params)
                       << RadiansToDegrees(Angles(gnbpos, uepos).GetAzimuth()) << std::endl;
         }
     }
+
+    uint32_t bandwidthJammerMHz = params.bandwidthJammerMHz;
+    
+    if(params.operationMode == "TDD")
+    {
+        bandwidthJammerMHz *= 2;
+    }
+    Time jammerStartTime = params.udpAppStartTime;
+    std::cout << "  installing jammers\n";
+    std::cout << "    number of jammers: " << params.nJammers << "\n";
+    // std::cout << "    central frequency: " << centralFrequency / 1e9 << " GHz\n";
+    std::cout << "    bandwidth:         " << bandwidthJammerMHz << " MHz\n";
+    std::cout << "    numerology:       " << params.numerologyBwp << "\n";
+    std::cout << "    jamming power:    " << params.jammingPower << " dBm\n";
+    std::cout << "    jammer type:      " << params.jammerType << "\n";
+    std::cout << "    jammer start time: " << jammerStartTime.GetSeconds() << " s\n\n";
+    
+    CustomJammerHelper jammerHelper = CustomJammerHelper();
+    std::vector<Vector> centers = gridScenario.GetHexagonalCellCenters();
+
+    std::vector<Vector> jammers = jammerHelper.Install(params.nJammers, gnbNodes, bandwidthJammerMHz ,params.numerologyBwp, params.jammingPower, jammerStartTime, params.jammerType, nrHelper, params.scenario, centers);
+
+    gridScenario.PlotCurrentHexagonalDeployment(&jammers);
+
+    // jammerHelper.Install(1, gnb, centralFrequency, 100e6, 0, 100, Time(10));
+
 
     /*
      * Traffic part. Install two kind of traffic: low-latency and voice, each

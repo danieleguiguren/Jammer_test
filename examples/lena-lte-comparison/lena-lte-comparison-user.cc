@@ -124,11 +124,20 @@ main(int argc, char* argv[])
     //Custom Settings
     cmd.AddValue("udpPacketSize", "UDP Packet Size, affects traffic throughput (1000->40Mbps, 500->20Mbps ...)", params.udpPacketSize);
 
+
+    //Jammer Settings
+
+    cmd.AddValue("nJammers", "Number of jammers", params.nJammers);
+    cmd.AddValue("jammingPower", "Jamming Power in dB", params.jammingPower);
+    cmd.AddValue("jammerBandwidth", "Jammer Bandwidth in MHz", params.bandwidthJammerMHz);
+
+    cmd.AddValue("jammerType", "Type of Jammer: WG, LTE, NR ", params.jammerType);
+
     // Parse the command line
     cmd.Parse(argc, argv);
     params.Validate();
-
-params.udpAppStartTime = params.appGenerationTime;
+    
+    params.udpAppStartTime = params.appGenerationTime;
     std::cout << params;
 
     ShowProgress spinner(params.progressInterval);

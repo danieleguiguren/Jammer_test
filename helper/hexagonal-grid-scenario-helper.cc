@@ -171,7 +171,8 @@ PlotHexagonalDeployment(const Ptr<const ListPositionAllocator>& sitePosVector,
                         const Ptr<const ListPositionAllocator>& utPosVector,
                         double cellRadius,
                         std::string resultsDir,
-                        std::string simTag)
+                        std::string simTag,
+                        const std::vector<Vector>* jammers = nullptr)
 {
     uint16_t numCells = cellCenterVector->GetSize();
     uint16_t numSites = sitePosVector->GetSize();
@@ -253,11 +254,31 @@ PlotHexagonalDeployment(const Ptr<const ListPositionAllocator>& sitePosVector,
         Vector utPos = utPosVector->GetNext();
         //      set label at xPos, yPos, zPos "" point pointtype 7 pointsize 2
         topologyOutfile << "set label at " << utPos.x << " , " << utPos.y
-                        << " point pointtype 7 pointsize 0.2 center" << std::endl;
+                        << " point pointtype 7 pointsize 0.2 lc rgb \"blue\" center"
+                        << std::endl;
     }
 
-    topologyOutfile << "unset key" << std::endl; //!< Disable plot legends
-    topologyOutfile << "plot 1/0" << std::endl;  //!< Need to plot a function
+    if (jammers != nullptr)
+    {
+        for (const Vector& jamPos : *jammers)
+        {
+            topologyOutfile << "set label at " << jamPos.x << " , " << jamPos.y
+                            << " point pointtype 9 pointsize 0.6 lc rgb \"red\" center"
+                            << std::endl;
+        }
+    }
+
+    topologyOutfile << "set key outside" << std::endl;
+    topologyOutfile << "set key samplen 0.5" << std::endl;
+
+    topologyOutfile << "plot NaN title \"UE\" with points pt 7 ps 0.5 lc rgb \"blue\"";
+
+    if (jammers != nullptr && !jammers->empty())
+    {
+        topologyOutfile << ", NaN title \"Jammer\" with points pt 9 ps 0.6 lc rgb \"red\"";
+    }
+
+    topologyOutfile << std::endl;
 }
 
 static Vector
@@ -284,6 +305,10 @@ GetClosestSitePosition(Vector cellCenterPos, const Ptr<ListPositionAllocator>& s
     return closestSitePosition;
 }
 
+void HexagonalGridScenarioHelper::PlotCurrentHexagonalDeployment(const std::vector<Vector>* jammers)
+{
+    PlotHexagonalDeployment(m_sitePosVector, m_bsCenterVector, m_utPosVector, m_hexagonalRadius, m_resultsDir, m_simTag, jammers);
+}
 void
 HexagonalGridScenarioHelper::SetNumRings(uint8_t numRings)
 {
@@ -327,6 +352,13 @@ double
 HexagonalGridScenarioHelper::GetHexagonalCellRadius() const
 {
     return m_hexagonalRadius;
+}
+
+std::vector<Vector>
+HexagonalGridScenarioHelper::GetHexagonalCellCenters() const
+{
+    
+    return centers;
 }
 
 Vector
@@ -396,6 +428,10 @@ HexagonalGridScenarioHelper::CreateScenario()
     Ptr<ListPositionAllocator> sitePosVector = CreateObject<ListPositionAllocator>();
     Ptr<ListPositionAllocator> utPosVector = CreateObject<ListPositionAllocator>();
 
+    m_bsCenterVector = bsCenterVector;
+    m_sitePosVector = sitePosVector;
+    m_utPosVector = utPosVector;
+
     // BS position
     for (std::size_t cellId = 0; cellId < m_numBs; cellId++)
     {
@@ -421,7 +457,7 @@ HexagonalGridScenarioHelper::CreateScenario()
         // Store cell center position for plotting the deployment
         Vector cellCenterPos = GetHexagonalCellCenter(bsPos, cellId);
         bsCenterVector->Add(cellCenterPos);
-
+        centers.push_back(cellCenterPos);
         // What about the antenna orientation? It should be dealt with when installing the gNB
     }
 

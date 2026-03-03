@@ -240,7 +240,7 @@ LenaV2Utils::SetLenaV2SimulatorParameters(const double sector0AngleRad,
     BandwidthPartInfo::Scenario scene;
     if (scenario == "UMi")
     {
-        txPowerBs = 30;
+        txPowerBs = 43;
         scene = BandwidthPartInfo::UMi_StreetCanyon_LoS;
     }
     else if (scenario == "UMa")
@@ -781,7 +781,7 @@ LenaV2Utils::SetLenaV2SimulatorParameters(const double sector0AngleRad,
         }
         uePhyFirst->TraceConnectWithoutContext("DlDataSinr",
                                                MakeBoundCallback(&ReportSinrNr, sinrStats));
-        uePhySecond->TraceConnectWithoutContext("ReportPowerSpectralDensity",
+        // uePhySecond->TraceConnectWithoutContext("ReportPowerSpectralDensity",
                                                 MakeBoundCallback(&ReportPowerNr, ueTxPowerStats));
     }
 
@@ -794,13 +794,13 @@ LenaV2Utils::SetLenaV2SimulatorParameters(const double sector0AngleRad,
             bwpId = 1;
         }
         auto gnbPhy = nrHelper->GetGnbPhy(*nd, bwpId);
-        gnbPhy->TraceConnectWithoutContext("SlotDataStats",
-                                           MakeBoundCallback(&ReportSlotStatsNr, slotStats));
-        gnbPhy->TraceConnectWithoutContext("RBDataStats",
-                                           MakeBoundCallback(&ReportRbStatsNr, rbStats));
-        gnbPhy->GetSpectrumPhy()->TraceConnectWithoutContext(
-            "RxDataTrace",
-            MakeBoundCallback(&ReportGnbRxDataNr, gnbRxPowerStats));
+        // gnbPhy->TraceConnectWithoutContext("SlotDataStats",
+        //                                    MakeBoundCallback(&ReportSlotStatsNr, slotStats));
+        // gnbPhy->TraceConnectWithoutContext("RBDataStats",
+        //                                    MakeBoundCallback(&ReportRbStatsNr, rbStats));
+        // gnbPhy->GetSpectrumPhy()->TraceConnectWithoutContext(
+        //     "RxDataTrace",
+        //     MakeBoundCallback(&ReportGnbRxDataNr, gnbRxPowerStats));
 
         DynamicCast<NrGnbNetDevice>(*nd)->UpdateConfig();
     }
