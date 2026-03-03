@@ -646,28 +646,35 @@ LenaV2Utils::SetLenaV2SimulatorParameters(const double sector0AngleRad,
     // TODO: What these values would be in TDD? bandwidthMhz refers to FDD.
     // for example, for TDD, if we have bandwidthMhz to 20, we will have a 40 MHz
     // BWP.
+    // So, we need to double it for TDD case.
+    uint32_t lteBwMHz = bandwidthMHz;
+    if (radioNetwork == "LTE" && operationMode == "TDD")
+    {
+        lteBwMHz *= 2; 
+    }
+
     if (radioNetwork == "LTE")
     {
-        if (bandwidthMHz == 20)
+        if (lteBwMHz == 20)
         {
             nrHelper->SetGnbMacAttribute("NumRbPerRbg", UintegerValue(4));
         }
-        else if (bandwidthMHz == 15)
+        else if (lteBwMHz == 15)
         {
             nrHelper->SetGnbMacAttribute("NumRbPerRbg", UintegerValue(4));
         }
-        else if (bandwidthMHz == 10)
+        else if (lteBwMHz == 10)
         {
             nrHelper->SetGnbMacAttribute("NumRbPerRbg", UintegerValue(3));
         }
-        else if (bandwidthMHz == 5)
+        else if (lteBwMHz == 5)
         {
             nrHelper->SetGnbMacAttribute("NumRbPerRbg", UintegerValue(2));
         }
         else
         {
             NS_ABORT_MSG("Currently, only supported bandwidths are 5, 10, 15, and 20MHz, you chose "
-                         << bandwidthMHz);
+                         << lteBwMHz);
         }
     }
 

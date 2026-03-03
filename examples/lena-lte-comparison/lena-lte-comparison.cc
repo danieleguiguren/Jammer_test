@@ -124,8 +124,8 @@ InstallApps(const Ptr<Node>& ue,
 bool
 Parameters::Validate() const
 {
-    NS_ABORT_MSG_IF(bandwidthMHz != 20 && bandwidthMHz != 10 && bandwidthMHz != 5,
-                    "Valid bandwidth values are 20, 10, 5, you set " << bandwidthMHz);
+    // NS_ABORT_MSG_IF(bandwidthMHz != 20 && bandwidthMHz != 10 && bandwidthMHz != 5,
+                    // "Valid bandwidth values are 20, 10, 5, you set " << bandwidthMHz);
 
     NS_ABORT_MSG_IF(trafficScenario > 3,
                     "Traffic scenario " << trafficScenario
@@ -139,8 +139,8 @@ Parameters::Validate() const
                     "Operation mode can only be TDD or FDD: " << operationMode);
     NS_ABORT_MSG_IF(radioNetwork != "LTE" && radioNetwork != "NR",
                     "Unrecognized radio network technology: " << radioNetwork);
-    NS_ABORT_MSG_IF(radioNetwork == "LTE" && operationMode != "FDD",
-                    "Operation mode must be FDD in a 4G LTE network: " << operationMode);
+    // NS_ABORT_MSG_IF(radioNetwork == "LTE" && operationMode != "FDD",
+    //                 "Operation mode must be FDD in a 4G LTE network: " << operationMode);
     NS_ABORT_MSG_IF(simulator != "LENA" && simulator != "5GLENA",
                     "Unrecognized simulator: " << simulator);
     NS_ABORT_MSG_IF(scheduler != "PF" && scheduler != "RR",
