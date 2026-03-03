@@ -511,7 +511,8 @@ LenaLteComparison(const Parameters& params)
                                                   params.scheduler,
                                                   params.bandwidthMHz,
                                                   params.freqScenario,
-                                                  params.downtiltAngle);
+                                                  params.downtiltAngle,
+                                                  params.band0Start);
     }
 
     // Check we got one valid helper

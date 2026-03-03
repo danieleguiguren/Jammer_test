@@ -166,7 +166,9 @@ LenaV2Utils::SetLenaV2SimulatorParameters(const double sector0AngleRad,
                                           const std::string& scheduler,
                                           uint32_t bandwidthMHz,
                                           uint32_t freqScenario,
-                                          double downtiltAngle)
+                                          double downtiltAngle,
+                                          double paramBand0Start
+                                        )
 {
     /*
      * Create the radio network related parameters
@@ -365,7 +367,7 @@ LenaV2Utils::SetLenaV2SimulatorParameters(const double sector0AngleRad,
      *
      */
     // \todo: set band 0 start frequency from the command line
-    const double band0Start = 2110e6;
+    const double band0Start = paramBand0Start;
     double bandwidthBwp = bandwidthMHz * 1e6;
 
     OperationBandInfo band0;

@@ -56,7 +56,8 @@ class LenaV2Utils
                                              const std::string& scheduler,
                                              uint32_t bandwidthMHz,
                                              uint32_t freqScenario,
-                                             double downtiltAngle);
+                                             double downtiltAngle,
+                                             double paramBand0Start);
     static void ReportSinrNr(SinrOutputStats* stats,
                              uint16_t cellId,
                              uint16_t rnti,
