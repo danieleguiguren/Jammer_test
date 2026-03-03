@@ -782,7 +782,7 @@ LenaV2Utils::SetLenaV2SimulatorParameters(const double sector0AngleRad,
         uePhyFirst->TraceConnectWithoutContext("DlDataSinr",
                                                MakeBoundCallback(&ReportSinrNr, sinrStats));
         // uePhySecond->TraceConnectWithoutContext("ReportPowerSpectralDensity",
-                                                MakeBoundCallback(&ReportPowerNr, ueTxPowerStats));
+                                                // MakeBoundCallback(&ReportPowerNr, ueTxPowerStats));
     }
 
     // When all the configuration is done, explicitly call UpdateConfig ()

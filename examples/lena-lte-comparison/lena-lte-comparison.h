@@ -85,10 +85,7 @@ struct Parameters
     double jammingPower = 1;
     double bandwidthJammerMHz = 20; 
     uint32_t udpPacketSize = 1000;
-    // uint16_t numerology = 0;
-    // double centralFrequency = 3700e6;
-    // bool useFixedMcs = true;
-    std::string jammerType;
+    std::string jammerType = "NR";
 };
 
 extern void LenaLteComparison(const Parameters& params);

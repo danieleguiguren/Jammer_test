@@ -65,6 +65,7 @@ foreach(
     LIBRARIES_TO_LINK ${libnr}
                       ${libflow-monitor}
                       ${libstats}
+                      ${libjamming}
   )
 endforeach()
 

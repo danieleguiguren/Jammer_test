@@ -31,7 +31,7 @@
 
 #include <iomanip>
 
-#include "custom-jammer-helper.h"
+#include "ns3/jamming-scenario-helper.h"
 
 /*
  * To be able to use LOG_* functions.
