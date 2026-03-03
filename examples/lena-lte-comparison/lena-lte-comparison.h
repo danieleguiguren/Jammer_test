@@ -21,7 +21,7 @@ struct Parameters
 
     bool Validate() const;
 
-    uint16_t numOuterRings = 3;
+    uint16_t numOuterRings = 0;
     uint16_t ueNumPergNb = 2;
     bool logging = false;
     bool traces = false;
@@ -36,7 +36,7 @@ struct Parameters
     // Simulation parameters. Please don't use double to indicate seconds, use
     // milliseconds and integers to avoid representation errors.
     Time appGenerationTime = MilliSeconds(1000);
-    Time udpAppStartTime = MilliSeconds(400);
+    Time udpAppStartTime;
     std::string direction = "DL";
 
     // Spectrum parameters. We will take the input from the command line, and then
